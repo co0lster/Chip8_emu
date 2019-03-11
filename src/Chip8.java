@@ -1,14 +1,36 @@
 public class Chip8 {
+
+    /* Chip8 has 35 opcodes each one 2 bytes long */
     short opcode;
     byte[] memory = new byte[4096];
-    byte[] V = new byte[16]; // 15 8-bit general purpose registers named from V0 to VE. The 16th register is used as a carry flag.
+
+    /* 15 8-bit general purpose registers named from V0 to VE. The 16th register is used as a carry flag. */
+    byte[] V = new byte[16];
+
+    /*
+    * indexRegister and programCounter can have a value from 0x000 to 0xFFF
+    * 0x000-0x1FF - Chip 8 interpreter (contains font set in emu)
+    * 0x050-0x0A0 - Used for the built in 4x5 pixel font set (0-F)
+    * 0x200-0xFFF - Program ROM and work RAM
+    */
     short indexRegister;
     short programCounter;
+
+    /*
+    * Graphics are black and white on 2048 pixels
+    * Drawing is done with XOR operation
+    * if pixel if off the VR register is set
+    */
     boolean[] gfx = new boolean[64 * 32];
+
+    /* Timer count at 60Hz down to 0 */
     byte delay_timer;
     byte sound_timer;
+
     short stack[] = new short[16];
     short stackPointer;
+
+    /* chip8 has a HEX based keypad (0x0 - 0xF) */
     byte[] key = new byte [16];
 
     public void emulate()
